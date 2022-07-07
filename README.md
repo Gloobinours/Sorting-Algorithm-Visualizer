@@ -2,7 +2,7 @@
 
 Web-based sorting alogrithm visualizer in Javascript
 
-##Contributors
+## Contributors
 
 @sconiglio
 @Gloobinours
