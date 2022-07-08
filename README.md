@@ -4,10 +4,10 @@ Web-based sorting alogrithm visualizer in Javascript.
 
 ## Contributors
 
-@sconiglio
+* [sconiglio](https://github.com/sconiglio)
 
-@Gloobinours
+* [Gloobinours](https://github.com/Gloobinours)
 
-@pcp3637
+* [pcp3637](https://github.com/pcp3637)
 
-@jhailos
+* [jhailos](https://github.com/jhailos)
