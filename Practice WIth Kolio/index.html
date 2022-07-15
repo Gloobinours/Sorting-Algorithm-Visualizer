@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Algorithms Visualizer</title>
+</head>
+<body>
+
+    <!-- <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script> -->
+    
+    <div id="div1">
+      <p>test text in tag p</p>
+    </div>
+    
+    <script>
+        function tagDemo(){
+            let referenceToDiv1 = document.getElementById("div1");
+        
+            console.log(referenceToDiv1);
+            referenceToDiv1.style.border = "solid 1px red";
+            referenceToDiv1.style.background = "yellow";
+            referenceToDiv1.style.height = "2in";
+            referenceToDiv1.style.width = "2in";
+        }
+        
+        function createCellsInDiv(n){
+            let currentDiv = document.createElement("div");
+            for(let i = 0; i < n; i++){
+                let child = document.createElement("div");
+                child.style.height = "5cm";
+                child.style.width = "5cm";
+                // child.style.width = "auto";
+                child.style.border = "solid 1px red";
+                child.style.display = "inline-block";
+                currentDiv.appendChild(child);
+            }
+            document.body.appendChild(currentDiv);
+        }
+
+        tagDemo();
+        createCellsInDiv(5);
+    </script>
+    <script src="app.js"></script>
+
+</body>
+</html>
