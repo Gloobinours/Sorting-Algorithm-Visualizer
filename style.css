@@ -15,14 +15,20 @@ h1{
     color: rgb(0, 0, 0);
 }
 
+#container{
+    width: 100vw;
+    height: calc(100vh - 150px);
+}
+
 footer{
     display: block;
     bottom: 0;
     width: 100vw;
-    height: 50px;
+    height: 100px;
     background-color: cyan;
 }
 
-#container{
-    height: calc(100% - 100px);
+#slider{
+    width: 50%;
+    height: 25px;
 }
