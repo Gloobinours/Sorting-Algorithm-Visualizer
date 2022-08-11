@@ -5,11 +5,10 @@ an_array = [5,1,9,7,8,3,6,2,4];
 
 /**
  * Sorts an array using bubble sort algorithm
- * @param {*} an array 
+ * @param {array} an array 
  * @returns sorted array
  */
 const bubble_sort = (an_array, blockSwapCallback) => {
-    console.log("test1");
     let timeoutDuration = 1;
     make_bars(parseInt(document.getElementById("slider").value), an_array);
     for (let i = 0; i < an_array.length -1; i++) {
@@ -65,4 +64,8 @@ const blockSwapCallback = (i, j) => {
     bar1.style.height = height2;
     bar2.style.height = height1;
 }
-console.log(bubble_sort(an_array, blockSwapCallback));
+
+const playAnimation = () => {
+    bubble_sort(an_array, blockSwapCallback);
+}
+document.getElementById("playButton").addEventListener("click", playAnimation);
