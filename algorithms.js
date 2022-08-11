@@ -1,7 +1,7 @@
 let algorithms = [];
 // const slider_value = document.getElementById("slider").value;
 
-an_array = [5,1,9,7,8,3,6,2];
+an_array = [5,1,9,7,8,3,6,2,4];
 
 /**
  * Sorts an array using bubble sort algorithm
@@ -18,9 +18,9 @@ const bubble_sort = (an_array, blockSwapCallback) => {
                 temp = an_array[j];
                 an_array[j] = an_array[j+1];
                 an_array[j+1] = temp;
+                setTimeout(blockSwapCallback, timeoutDuration * 1000, j, j+1);
+                timeoutDuration++;
             }
-            setTimeout(blockSwapCallback, timeoutDuration * 1000, j, j+1);
-            timeoutDuration++;
         }
     }
 }
@@ -28,12 +28,14 @@ const bubble_sort = (an_array, blockSwapCallback) => {
 const make_bars = (slider_value, an_array) => {
     let referenceToContainer = document.getElementById("screen");
     let max_value = Math.max(...an_array);
+    let borderThickness = 1;
     for(let i = 0 ; i < slider_value; i++) {
         let child = document.createElement("div");
         child.style.height = ((an_array[i]/max_value) * 100).toString() + "%";
-        child.style.width = (100/an_array.length).toString() + "%";
+        child.style.width = `calc(${(100/an_array.length)}% - ${borderThickness*2}px)`;
         child.style["background-color"] = "rgb(0, 0, 0)";
         child.style.display = "inline-block";
+        child.style.border = `solid ${borderThickness}px blue`;
         referenceToContainer.appendChild(child);
     }
 }
