@@ -18,6 +18,15 @@ h1{
 #container{
     width: 100vw;
     height: calc(100vh - 150px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#screen{
+    width: 75%;
+    height: 75%;
+    border: solid 3px black;
 }
 
 footer{
@@ -31,4 +40,7 @@ footer{
 #slider{
     width: 50%;
     height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
