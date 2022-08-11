@@ -25,17 +25,23 @@ const bubble_sort = (an_array, blockSwapCallback) => {
     }
 }
 
+/**
+ * Creates the bars on the visualizer
+ * @param {integer} slider_value 
+ * @param {array} an_array 
+ * @returns void
+ */
 const make_bars = (slider_value, an_array) => {
     let referenceToContainer = document.getElementById("screen");
     let max_value = Math.max(...an_array);
     let borderThickness = 1;
     for(let i = 0 ; i < slider_value; i++) {
         let child = document.createElement("div");
-        child.style.height = ((an_array[i]/max_value) * 100).toString() + "%";
+        child.style.height = `calc(${an_array[i] / max_value * 100}% - ${borderThickness*2}px)`;
         child.style.width = `calc(${(100/an_array.length)}% - ${borderThickness*2}px)`;
-        child.style["background-color"] = "rgb(0, 0, 0)";
+        child.style["background-color"] = "#FFB4B4";
         child.style.display = "inline-block";
-        child.style.border = `solid ${borderThickness}px blue`;
+        child.style.border = `solid ${borderThickness}px #B2A4FF`;
         referenceToContainer.appendChild(child);
     }
 }
@@ -44,7 +50,12 @@ const timeout_debug = () => {
     console.log("timeout ended");
 }
 
-
+/**
+ * Swaps the height of 2 adjacent bars
+ * @param {integer} i
+ * @param {integer} j 
+ * @returns void
+ */
 const blockSwapCallback = (i, j) => {
     let referenceToContainer = document.getElementById("screen");
     let bar1 = referenceToContainer.children[i];

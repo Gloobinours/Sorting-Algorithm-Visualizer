@@ -6,7 +6,7 @@ header{
     top: 0;
     width: 100vw;
     height: 50px;
-    background-color: cyan;
+    background-color: #B2A4FF;
 }
 
 h1{
@@ -21,12 +21,13 @@ h1{
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #FFF9CA;
 }
 
 #screen{
     width: 75%;
     height: 75%;
-    background-color: yellow;
+    background-color: #FFDEB4;
 }
 
 footer{
@@ -34,7 +35,7 @@ footer{
     bottom: 0;
     width: 100vw;
     height: 100px;
-    background-color: cyan;
+    background-color: #B2A4FF;
 }
 
 #slider{
