@@ -4,6 +4,42 @@ let algorithms = [];
 an_array = [5,1,9,7,8,3,6,2,4];
 
 /**
+ * Shows the value returned by the slider
+ */
+const show_value = () => {
+    document.getElementById("rangeValueId").innerHTML = document.getElementById("slider").value;
+}
+
+/**
+ * Shuffles an array 
+ * @param {array} an_array 
+ * @returns shuffled array
+ */
+const shuffle_array = (an_array) => {
+    for (let i = 0; i < an_array.length; i++) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [an_array[i], an_array[j]] = [an_array[j], an_array[i]];
+    }
+
+    return an_array;
+}
+
+/**
+ * Creates an array using the given slider value as length and shuffles it
+ * @param {integer} slider value 
+ * @returns shuffled array
+ */
+const create_array = (value) => {
+    let an_array = [value];
+    for (let i = 0; i < value; i++) {
+        an_array[i] = i;
+    }
+    console.log(an_array);
+    
+    return shuffle_array(an_array);
+}
+
+/**
  * Sorts an array using bubble sort algorithm
  * @param {array} an array 
  * @returns sorted array
