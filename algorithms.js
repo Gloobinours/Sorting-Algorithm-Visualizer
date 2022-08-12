@@ -1,13 +1,10 @@
 let algorithms = [];
-// const slider_value = document.getElementById("slider").value;
-
-an_array = [5,1,9,7,8,3,6,2,4];
 
 /**
  * Shows the value returned by the slider
  */
-const show_value = () => {
-    document.getElementById("rangeValueId").innerHTML = document.getElementById("slider").value;
+const show_value = (value) => {
+    document.getElementById("rangeValueId").innerHTML = value;
 }
 
 /**
@@ -32,10 +29,9 @@ const shuffle_array = (an_array) => {
 const create_array = (value) => {
     let an_array = [value];
     for (let i = 0; i < value; i++) {
-        an_array[i] = i;
+        an_array[i] = i+1;
     }
-    console.log(an_array);
-    
+
     return shuffle_array(an_array);
 }
 
@@ -102,6 +98,6 @@ const blockSwapCallback = (i, j) => {
 }
 
 const playAnimation = () => {
-    bubble_sort(an_array, blockSwapCallback);
+    bubble_sort(create_array(document.getElementById("slider").value), blockSwapCallback);
 }
 document.getElementById("playButton").addEventListener("click", playAnimation);
