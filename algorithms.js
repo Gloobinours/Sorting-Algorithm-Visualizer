@@ -45,11 +45,11 @@ const bubble_sort = (an_array, blockSwapCallback) => {
     make_bars(parseInt(document.getElementById("slider").value), an_array);
     for (let i = 0; i < an_array.length -1; i++) {
         for (let j = 0; j < an_array.length -1 - i; j++) {
-            console.log(isCanceled);
-            if (isCanceled) {
-                console.log("oui oui", isCanceled);
-                return;
-            }
+            // console.log(isCanceled);
+            // if (isCanceled) {
+            //     console.log("oui oui", isCanceled);
+            //     return;
+            // }
             if (an_array[j] > an_array[j+1]) {
                 temp = an_array[j];
                 an_array[j] = an_array[j+1];
@@ -104,11 +104,12 @@ const blockSwapCallback = (i, j) => {
 
 const playAnimation = () => {
     let screen = document.getElementById("screen");
-    isCanceled = true;
+    // isCanceled = true;
+    // debugger;
     while(screen.firstChild) {
         screen.removeChild(screen.firstChild);
     }
-    isCanceled = false;
+    // isCanceled = false;
     bubble_sort(create_array(document.getElementById("slider").value), blockSwapCallback);
 }
 document.getElementById("playButton").addEventListener("click", playAnimation);
