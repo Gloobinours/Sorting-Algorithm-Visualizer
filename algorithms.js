@@ -1,5 +1,6 @@
+//Question for Louan from Sam: Why do we need what is below?
 let algorithms = [];
-var isCanceled = false;
+var isSorting = false;
 /**
  * Shows the value returned by the slider
  */
@@ -59,6 +60,7 @@ const bubble_sort = (an_array, blockSwapCallback) => {
             }
         }
     }
+    isSorting = false;
 }
 
 /**
@@ -104,12 +106,16 @@ const blockSwapCallback = (i, j) => {
 
 const playAnimation = () => {
     let screen = document.getElementById("screen");
-    // isCanceled = true;
-    // debugger;
-    while(screen.firstChild) {
-        screen.removeChild(screen.firstChild);
+    if(isSorting == false){
+        isSorting = true;
+        while(screen.firstChild) {
+            screen.removeChild(screen.firstChild);
+        }
+        bubble_sort(create_array(document.getElementById("slider").value), blockSwapCallback);
+    } else {
+        /*From Sam to Everyone: Maybe we should throw an error here, and then handle it?
+        I think that would be "good practice".*/
+        console.log("Play button listen event execution was cancelled.");
     }
-    // isCanceled = false;
-    bubble_sort(create_array(document.getElementById("slider").value), blockSwapCallback);
 }
 document.getElementById("playButton").addEventListener("click", playAnimation);
