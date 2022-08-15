@@ -117,11 +117,22 @@ const playAnimation = () => {
         isAnimationRunning = true;
     }
     if(isAnimationRunning) {
-        let timeoutDuration = 1000;
+        isAnimationRunning = false;
+        document.getElementById("playButton").innerHTML = "Pause";
+        let timeoutDuration = 500;
         let currentDuration = timeoutDuration;
         for (let i = currentWaitTarget; i < sortAnimations.length; i++) {
-            setTimeout(blockSwapCallback, currentDuration, sortAnimations[i][0], sortAnimations[i][1]);
+            let id = setTimeout(blockSwapCallback, currentDuration, sortAnimations[i][0], sortAnimations[i][1]);
+            timeoutIdArray[i] = id;
+            console.log("Called setTimeout: " + currentDuration + "ms, id = " + id);
             currentDuration += timeoutDuration;
+        }
+    } else if (!isAnimationRunning) {
+        isAnimationRunning = true;
+        document.getElementById("playButton").innerHTML = "Play";
+        for (let i = currentWaitTarget; i < sortAnimations.length; i++) {
+            console.log("Called clear timeout: " + timeoutIdArray[i]);
+            clearTimeout(timeoutIdArray[i]);
         }
     }
 
