@@ -44,7 +44,6 @@ const create_array = (value) => {
 const bubble_sort = (an_array) => {
     // let timeoutDuration = 1;
     sortAnimations = [];
-    sortAnimationPair = [0, 0];
     make_bars(parseInt(document.getElementById("slider").value), an_array);
     for (let i = 0; i < an_array.length -1; i++) {
         for (let j = 0; j < an_array.length -1 - i; j++) {
@@ -52,15 +51,12 @@ const bubble_sort = (an_array) => {
                 temp = an_array[j];
                 an_array[j] = an_array[j+1];
                 an_array[j+1] = temp;
-                sortAnimationPair[0] = j;
-                sortAnimationPair[1] = (j+1);
-                sortAnimations.push(sortAnimationPair);
-                // setTimeout(blockSwapCallback, timeoutDuration * 1000, j, j+1);
-                // timeoutDuration+=1;
+                sortAnimations.push([j, j+1]);
+            } else {
+                sortAnimations.push([0, 0]); // add empty animation
             }
         }
     }
-    // isSorting = false;
     return sortAnimations;
 }
 
@@ -103,6 +99,7 @@ const blockSwapCallback = (i, j) => {
     let height2 = bar2.style.height;
     bar1.style.height = height2;
     bar2.style.height = height1;
+    currentWaitTarget++;
 }
 
 var arrayBeingSorted = [];
@@ -110,15 +107,22 @@ var screen = document.getElementById("screen");
 var isAnimationRunning = false;
 var sortAnimations = [];
 var currentWaitTarget = 0;
+var timeoutIdArray = [];
 
 const playAnimation = () => {
     if(arrayBeingSorted.length == 0) {
         arrayBeingSorted = create_array(document.getElementById("slider").value);
         sortAnimations = bubble_sort(arrayBeingSorted);
+        timeoutIdArray = Array(sortAnimations.length).fill(0);
         isAnimationRunning = true;
     }
     if(isAnimationRunning) {
-        
+        let timeoutDuration = 1000;
+        let currentDuration = timeoutDuration;
+        for (let i = currentWaitTarget; i < sortAnimations.length; i++) {
+            setTimeout(blockSwapCallback, currentDuration, sortAnimations[i][0], sortAnimations[i][1]);
+            currentDuration += timeoutDuration;
+        }
     }
 
     // if(isSorting == false){
