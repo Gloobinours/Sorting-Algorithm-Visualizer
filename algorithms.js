@@ -1,11 +1,11 @@
 //Question for Louan from Sam: Why do we need what is below?
 let algorithms = [];
-var isSorting = false;
 /**
  * Shows the value returned by the slider
  */
 const show_value = (value) => {
     document.getElementById("rangeValueId").innerHTML = value;
+    // console.log("Test print show value: " + value);
 }
 
 /**
@@ -41,26 +41,27 @@ const create_array = (value) => {
  * @param {array} an array 
  * @returns sorted array
  */
-const bubble_sort = (an_array, blockSwapCallback) => {
-    let timeoutDuration = .125;
+const bubble_sort = (an_array) => {
+    // let timeoutDuration = 1;
+    sortAnimations = [];
+    sortAnimationPair = [0, 0];
     make_bars(parseInt(document.getElementById("slider").value), an_array);
     for (let i = 0; i < an_array.length -1; i++) {
         for (let j = 0; j < an_array.length -1 - i; j++) {
-            // console.log(isCanceled);
-            // if (isCanceled) {
-            //     console.log("oui oui", isCanceled);
-            //     return;
-            // }
             if (an_array[j] > an_array[j+1]) {
                 temp = an_array[j];
                 an_array[j] = an_array[j+1];
                 an_array[j+1] = temp;
-                setTimeout(blockSwapCallback, timeoutDuration * 1000, j, j+1);
-                timeoutDuration+=.125;
+                sortAnimationPair[0] = j;
+                sortAnimationPair[1] = (j+1);
+                sortAnimations.push(sortAnimationPair);
+                // setTimeout(blockSwapCallback, timeoutDuration * 1000, j, j+1);
+                // timeoutDuration+=1;
             }
         }
     }
-    isSorting = false;
+    // isSorting = false;
+    return sortAnimations;
 }
 
 /**
@@ -104,18 +105,36 @@ const blockSwapCallback = (i, j) => {
     bar2.style.height = height1;
 }
 
+var arrayBeingSorted = [];
+var screen = document.getElementById("screen");
+var isAnimationRunning = false;
+var sortAnimations = [];
+var currentWaitTarget = 0;
+
 const playAnimation = () => {
-    let screen = document.getElementById("screen");
-    if(isSorting == false){
-        isSorting = true;
-        while(screen.firstChild) {
-            screen.removeChild(screen.firstChild);
-        }
-        bubble_sort(create_array(document.getElementById("slider").value), blockSwapCallback);
-    } else {
-        /*From Sam to Everyone: Maybe we should throw an error here, and then handle it?
-        I think that would be "good practice".*/
-        console.log("Play button listen event execution was cancelled.");
+    if(arrayBeingSorted.length == 0) {
+        arrayBeingSorted = create_array(document.getElementById("slider").value);
+        sortAnimations = bubble_sort(arrayBeingSorted);
+        isAnimationRunning = true;
     }
+    if(isAnimationRunning) {
+        
+    }
+
+    // if(isSorting == false){
+    //     isSorting = true;
+    //     console.log(isSorting);
+    //     while(screen.firstChild) {
+    //         screen.removeChild(screen.firstChild);
+    //     }
+    //     console.log(isSorting);
+    //     bubble_sort(create_array(document.getElementById("slider").value), blockSwapCallback);
+    //     console.log(isSorting);
+    // } else {
+    //     /*From Sam to Everyone: Maybe we should throw an error here, and then handle it?
+    //     I think that would be "good practice".*/
+    //     console.log("Play button listen event execution was cancelled.");
+    // }
+
 }
 document.getElementById("playButton").addEventListener("click", playAnimation);
