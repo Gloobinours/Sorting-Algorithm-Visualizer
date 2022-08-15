@@ -3,23 +3,23 @@ let algorithms = [];
 /**
  * Shows the value returned by the slider
  */
-const show_value = (value) => {
+const showValue = (value) => {
     document.getElementById("rangeValueId").innerHTML = value;
     // console.log("Test print show value: " + value);
 }
 
 /**
  * Shuffles an array 
- * @param {array} an_array 
+ * @param {array} anArray 
  * @returns shuffled array
  */
-const shuffle_array = (an_array) => {
-    for (let i = 0; i < an_array.length; i++) {
+const shuffleArray = (anArray) => {
+    for (let i = 0; i < anArray.length; i++) {
         let j = Math.floor(Math.random() * (i + 1));
-        [an_array[i], an_array[j]] = [an_array[j], an_array[i]];
+        [anArray[i], anArray[j]] = [anArray[j], anArray[i]];
     }
 
-    return an_array;
+    return anArray;
 }
 
 /**
@@ -27,13 +27,13 @@ const shuffle_array = (an_array) => {
  * @param {integer} slider value 
  * @returns shuffled array
  */
-const create_array = (value) => {
-    let an_array = [value];
+const createArray = (value) => {
+    let anArray = [value];
     for (let i = 0; i < value; i++) {
-        an_array[i] = i+1;
+        anArray[i] = i+1;
     }
 
-    return shuffle_array(an_array);
+    return shuffleArray(anArray);
 }
 
 /**
@@ -41,16 +41,15 @@ const create_array = (value) => {
  * @param {array} an array 
  * @returns sorted array
  */
-const bubble_sort = (an_array) => {
+const bubbleSort = (anArray) => {
     // let timeoutDuration = 1;
     sortAnimations = [];
-    make_bars(parseInt(document.getElementById("slider").value), an_array);
-    for (let i = 0; i < an_array.length -1; i++) {
-        for (let j = 0; j < an_array.length -1 - i; j++) {
-            if (an_array[j] > an_array[j+1]) {
-                temp = an_array[j];
-                an_array[j] = an_array[j+1];
-                an_array[j+1] = temp;
+    for (let i = 0; i < anArray.length -1; i++) {
+        for (let j = 0; j < anArray.length -1 - i; j++) {
+            if (anArray[j] > anArray[j+1]) {
+                temp = anArray[j];
+                anArray[j] = anArray[j+1];
+                anArray[j+1] = temp;
                 sortAnimations.push([j, j+1]);
             } else {
                 sortAnimations.push([0, 0]); // add empty animation
@@ -62,18 +61,18 @@ const bubble_sort = (an_array) => {
 
 /**
  * Creates the bars on the visualizer
- * @param {integer} slider_value 
- * @param {array} an_array 
+ * @param {integer} sliderValue 
+ * @param {array} anArray 
  * @returns void
  */
-const make_bars = (slider_value, an_array) => {
+const makeBars = (anArray) => {
     let referenceToContainer = document.getElementById("screen");
-    let max_value = Math.max(...an_array);
+    let maxValue = Math.max(...anArray);
     let borderThickness = 1;
-    for(let i = 0 ; i < slider_value; i++) {
+    for(let i = 0 ; i < anArray.length; i++) {
         let child = document.createElement("div");
-        child.style.height = `calc(${an_array[i] / max_value * 100}% - ${borderThickness*2}px)`;
-        child.style.width = `calc(${(100/an_array.length)}% - ${borderThickness*2}px)`;
+        child.style.height = `calc(${anArray[i] / maxValue * 100}% - ${borderThickness*2}px)`;
+        child.style.width = `calc(${(100/anArray.length)}% - ${borderThickness*2}px)`;
         child.style["background-color"] = "#FFB4B4";
         child.style.display = "inline-block";
         child.style.border = `solid ${borderThickness}px #B2A4FF`;
@@ -81,7 +80,7 @@ const make_bars = (slider_value, an_array) => {
     }
 }
 
-const timeout_debug = () => {
+const timeoutDebug = () => {
     console.log("timeout ended");
 }
 
@@ -100,6 +99,9 @@ const blockSwapCallback = (i, j) => {
     bar1.style.height = height2;
     bar2.style.height = height1;
     currentWaitTarget++;
+    if(currentWaitTarget == sortAnimations.length){
+        document.getElementById("playButton").innerHTML = "Restart";
+    }
 }
 
 var arrayBeingSorted = [];
@@ -110,9 +112,25 @@ var currentWaitTarget = 0;
 var timeoutIdArray = [];
 
 const playAnimation = () => {
+    const button = document. querySelector('button');
+    button.disabled = true;
+    if(currentWaitTarget >= sortAnimations.length) {
+        //Reset all the globals
+        arrayBeingSorted = [];
+        isAnimationRunning = false;
+        sortAnimations = [];
+        currentWaitTarget = 0;
+        timeoutIdArray = [];
+        //Manually destroy the old divs
+        while(screen.firstChild) {
+            screen.removeChild(screen.lastChild);
+        }
+    }
     if(arrayBeingSorted.length == 0) {
-        arrayBeingSorted = create_array(document.getElementById("slider").value);
-        sortAnimations = bubble_sort(arrayBeingSorted);
+        arrayBeingSorted = createArray(document.getElementById("slider").value);
+        //Need linear iteration regardless (because if we don't recreate bars, we will iterate through the array to be sorted)
+        makeBars(arrayBeingSorted);
+        sortAnimations = bubbleSort(arrayBeingSorted);
         timeoutIdArray = Array(sortAnimations.length).fill(0);
         isAnimationRunning = true;
     }
@@ -135,7 +153,7 @@ const playAnimation = () => {
             clearTimeout(timeoutIdArray[i]);
         }
     }
-
+    button.disabled = false;
     // if(isSorting == false){
     //     isSorting = true;
     //     console.log(isSorting);
@@ -143,7 +161,7 @@ const playAnimation = () => {
     //         screen.removeChild(screen.firstChild);
     //     }
     //     console.log(isSorting);
-    //     bubble_sort(create_array(document.getElementById("slider").value), blockSwapCallback);
+    //     bubbleSort(createArray(document.getElementById("slider").value), blockSwapCallback);
     //     console.log(isSorting);
     // } else {
     //     /*From Sam to Everyone: Maybe we should throw an error here, and then handle it?
