@@ -100,7 +100,7 @@ const blockSwapCallback = (i, j) => {
     bar2.style.height = height1;
     currentWaitTarget++;
     if(currentWaitTarget == sortAnimations.length){
-        document.getElementById("playButton").innerHTML = "Restart";
+        document.getElementById("playButton").innerHTML = "Play";
     }
 }
 
@@ -137,7 +137,7 @@ const playAnimation = () => {
     if(isAnimationRunning) {
         isAnimationRunning = false;
         document.getElementById("playButton").innerHTML = "Pause";
-        let timeoutDuration = 500;
+        let timeoutDuration = 25;
         let currentDuration = timeoutDuration;
         for (let i = currentWaitTarget; i < sortAnimations.length; i++) {
             let id = setTimeout(blockSwapCallback, currentDuration, sortAnimations[i][0], sortAnimations[i][1]);
