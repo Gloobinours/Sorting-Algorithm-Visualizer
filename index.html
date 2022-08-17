@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Sorting Algorithms Visualizer</title>
 </head>
 <body>
@@ -24,6 +24,13 @@
         <input type="range" min="5" max="30" value="15" id="slider" onchange="show_value(this.value); create_array(this.value);">
         <p id="rangeValueId">15</p>
         <button id="playButton">Play</button>
+        <label for="cars">Choose an algorithm:</label>
+        <select name="algorithms" id="algorithms">
+            <option value="Bubble Sort">Bubble Sort</option>
+            <option value="Section Sort">Section Sort</option>
+            <option value="Merge Sort">Merge Sort</option>
+            <option value="Quick Sort">Quick Sort</option>
+        </select>
     </footer>
 
     <script src="./algorithms.js">
