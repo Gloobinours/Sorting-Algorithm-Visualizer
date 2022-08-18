@@ -43,7 +43,7 @@ const createArray = (value) => {
  */
 const bubbleSort = (anArray) => {
     // let timeoutDuration = 1;
-    sortAnimations = [];
+    let sortAnimations = [];
     for (let i = 0; i < anArray.length -1; i++) {
         for (let j = 0; j < anArray.length -1 - i; j++) {
             if (anArray[j] > anArray[j+1]) {
@@ -56,6 +56,28 @@ const bubbleSort = (anArray) => {
             }
         }
     }
+    return sortAnimations;
+}
+
+const selectionSort = (anArray) => {
+    console.log(anArray);
+
+    let sortAnimations = [];
+
+    for(let firstNonePartitionIndex = 0; firstNonePartitionIndex < anArray.length; firstNonePartitionIndex++) {
+        let currentMinimumIndex = firstNonePartitionIndex;
+        for(let currentIndex = firstNonePartitionIndex; currentIndex < anArray.length; currentIndex++) {
+            if (anArray[currentIndex] < anArray[currentMinimumIndex]){
+                currentMinimumIndex = currentIndex;
+            }
+        }
+        let valueOriginallyAtFirstNonPartitionIndex = anArray[firstNonePartitionIndex];
+        anArray[firstNonePartitionIndex] = anArray[currentMinimumIndex];
+        anArray[currentMinimumIndex] = valueOriginallyAtFirstNonPartitionIndex;
+        sortAnimations.push([firstNonePartitionIndex, currentMinimumIndex]);
+    }
+    console.log(anArray);
+
     return sortAnimations;
 }
 
@@ -128,8 +150,12 @@ var currentWaitTarget = 0;
 var timeoutIdArray = [];
 var colorChangeIdArray = [];
 var colorChangeIdArray2 = [];
+var sortAnimations = [];
 
 const playAnimation = () => {
+    // arrayBeingSorted = createArray(document.getElementById("slider").value);
+    // selectionSort(arrayBeingSorted);
+
     const button = document. querySelector('button');
     button.disabled = true;
     if(currentWaitTarget >= sortAnimations.length) {
@@ -139,6 +165,7 @@ const playAnimation = () => {
         sortAnimations = [];
         currentWaitTarget = 0;
         timeoutIdArray = [];
+        sortAnimations = [];
         //Manually destroy the old divs
         while(screen.firstChild) {
             screen.removeChild(screen.lastChild);
@@ -146,9 +173,14 @@ const playAnimation = () => {
     }
     if(arrayBeingSorted.length == 0) {
         arrayBeingSorted = createArray(document.getElementById("slider").value);
-        //Need linear iteration regardless (because if we don't recreate bars, we will iterate through the array to be sorted)
+        //Need linear iteration regardless (because if we don't recreate bars, we will iterate through the array that is going to be sorted)
         makeBars(arrayBeingSorted);
-        sortAnimations = bubbleSort(arrayBeingSorted);
+        dropDownList = document.getElementById("algorithms");
+        if(dropDownList.value = "Bubble Sort") {
+            sortAnimations = bubbleSort(arrayBeingSorted);
+        } else if(dropDownList.value = "Selection Sort") {
+            sortAnimations = selectionSort(arrayBeingSorted);
+        }
         timeoutIdArray = Array(sortAnimations.length).fill(0);
         colorChangeIdArray = Array(sortAnimations.length).fill(0);
         colorChangeIdArray2 = Array(sortAnimations.length).fill(0);
@@ -180,20 +212,5 @@ const playAnimation = () => {
         }
     }
     button.disabled = false;
-    // if(isSorting == false){
-    //     isSorting = true;
-    //     console.log(isSorting);
-    //     while(screen.firstChild) {
-    //         screen.removeChild(screen.firstChild);
-    //     }
-    //     console.log(isSorting);
-    //     bubbleSort(createArray(document.getElementById("slider").value), blockSwapCallback);
-    //     console.log(isSorting);
-    // } else {
-    //     /*From Sam to Everyone: Maybe we should throw an error here, and then handle it?
-    //     I think that would be "good practice".*/
-    //     console.log("Play button listen event execution was cancelled.");
-    // }
-
 }
 document.getElementById("playButton").addEventListener("click", playAnimation);
