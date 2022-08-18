@@ -5,7 +5,6 @@ let algorithms = [];
  */
 const showValue = (value) => {
     document.getElementById("rangeValueId").innerHTML = value;
-    // console.log("Test print show value: " + value);
 }
 
 /**
@@ -70,12 +69,11 @@ const bubbleSort = (anArray) => {
 }
 
 const selectionSort = (anArray) => {
-
     let sortAnimations = [];
 
     for(let firstNonePartitionIndex = 0; firstNonePartitionIndex < anArray.length; firstNonePartitionIndex++) {
-        let currentMinimumIndex = firstNonePartitionIndex + 1;
-        for(let currentIndex = firstNonePartitionIndex + 1; currentIndex < anArray.length; currentIndex++) {
+        let currentMinimumIndex = firstNonePartitionIndex;
+        for(let currentIndex = firstNonePartitionIndex; currentIndex < anArray.length; currentIndex++) {
             if (anArray[currentIndex] < anArray[currentMinimumIndex]){
                 currentMinimumIndex = currentIndex;
             }
@@ -182,13 +180,8 @@ In other words, we will follow this 3 step process in chronological order:
 var sortAnimations = [];
 var currentWaitTarget = 0;
 var timeoutIdArray = [];
-// var colorChangeIdArray = [];
-// var colorChangeIdArray2 = [];
 
 const playAnimation = () => {
-    // arrayBeingSorted = createArray(document.getElementById("slider").value);
-    // selectionSort(arrayBeingSorted);
-
     const button = document. querySelector('button');
     button.disabled = true;
     if(currentWaitTarget >= sortAnimations.length) {
@@ -207,7 +200,7 @@ const playAnimation = () => {
         }
     }
     if(arrayBeingSorted.length == 0) {
-        arrayBeingSorted = [4, 1, 5, 3, 2];//createArray(document.getElementById("slider").value);
+        arrayBeingSorted = createArray(document.getElementById("slider").value);
         //Need linear iteration regardless (because if we don't recreate bars, we will iterate through the array that is going to be sorted)
         makeBars(arrayBeingSorted);
         dropDownList = document.getElementById("algorithms");
@@ -218,23 +211,17 @@ const playAnimation = () => {
         }
         console.log(sortAnimations);
         timeoutIdArray = Array(sortAnimations.length).fill(0);
-        // colorChangeIdArray = Array(sortAnimations.length).fill(0);
-        // colorChangeIdArray2 = Array(sortAnimations.length).fill(0);
         isAnimationRunning = true;
     }
     if(isAnimationRunning) {
         isAnimationRunning = false;
         document.getElementById("playButton").innerHTML = "Pause";
-        let timeoutDuration = 1000;
+        let timeoutDuration = 100;
         let currentDuration = timeoutDuration;
         let referenceToContainer = document.getElementById("screen");
         for (let i = currentWaitTarget; i < sortAnimations.length; i++) {
             let id = setTimeout(blockSwapCallback, currentDuration, referenceToContainer, i, sortAnimations);
-            // let id2 = setTimeout(colorBarSelect, currentDuration, sortAnimations[i][0], sortAnimations[i][1]);
-            // let id3 = setTimeout(colorBarDeselect, currentDuration + 100, sortAnimations[i][0], sortAnimations[i][1]);
             timeoutIdArray[i] = id;
-            // colorChangeIdArray[i] = id2;
-            // colorChangeIdArray2[i] = id3;
             console.log("Called setTimeout: " + currentDuration + "ms, id = " + id);
             currentDuration += timeoutDuration;
         }
@@ -244,8 +231,6 @@ const playAnimation = () => {
         for (let i = currentWaitTarget; i < sortAnimations.length; i++) {
             console.log("Called clear timeout: " + timeoutIdArray[i]);
             clearTimeout(timeoutIdArray[i]);
-            // clearTimeout(colorChangeIdArray[i]);
-            // clearTimeout(colorChangeIdArray2[i]);
         }
     }
     button.disabled = false;
