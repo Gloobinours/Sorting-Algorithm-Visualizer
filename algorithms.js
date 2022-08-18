@@ -176,9 +176,9 @@ const playAnimation = () => {
         //Need linear iteration regardless (because if we don't recreate bars, we will iterate through the array that is going to be sorted)
         makeBars(arrayBeingSorted);
         dropDownList = document.getElementById("algorithms");
-        if(dropDownList.value = "Bubble Sort") {
+        if(dropDownList.value == "Bubble Sort") {
             sortAnimations = bubbleSort(arrayBeingSorted);
-        } else if(dropDownList.value = "Selection Sort") {
+        } else if(dropDownList.value == "Selection Sort") {
             sortAnimations = selectionSort(arrayBeingSorted);
         }
         timeoutIdArray = Array(sortAnimations.length).fill(0);
