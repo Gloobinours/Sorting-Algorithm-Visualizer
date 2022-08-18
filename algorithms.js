@@ -104,12 +104,30 @@ const blockSwapCallback = (i, j) => {
     }
 }
 
+const colorBarSwap = (i, j) => {
+    let referenceToContainer = document.getElementById("screen");
+    let bar1 = referenceToContainer.children[i];
+    let bar2 = referenceToContainer.children[j];
+    bar1.style["background-color"] = "#008000";
+    bar2.style["background-color"] = "#008000";
+}
+
+const colorBarSwapBack = (i, j) => {
+    let referenceToContainer = document.getElementById("screen");
+    let bar1 = referenceToContainer.children[i];
+    let bar2 = referenceToContainer.children[j];
+    bar1.style["background-color"] = "#FFB4B40";
+    bar2.style["background-color"] = "#FFB4B4";
+}
+
 var arrayBeingSorted = [];
 var screen = document.getElementById("screen");
 var isAnimationRunning = false;
 var sortAnimations = [];
 var currentWaitTarget = 0;
 var timeoutIdArray = [];
+var colorChangeIdArray = [];
+var colorChangeIdArray2 = [];
 
 const playAnimation = () => {
     const button = document. querySelector('button');
@@ -132,16 +150,22 @@ const playAnimation = () => {
         makeBars(arrayBeingSorted);
         sortAnimations = bubbleSort(arrayBeingSorted);
         timeoutIdArray = Array(sortAnimations.length).fill(0);
+        colorChangeIdArray = Array(sortAnimations.length).fill(0);
+        colorChangeIdArray2 = Array(sortAnimations.length).fill(0);
         isAnimationRunning = true;
     }
     if(isAnimationRunning) {
         isAnimationRunning = false;
         document.getElementById("playButton").innerHTML = "Pause";
-        let timeoutDuration = 25;
+        let timeoutDuration = 100;
         let currentDuration = timeoutDuration;
         for (let i = currentWaitTarget; i < sortAnimations.length; i++) {
             let id = setTimeout(blockSwapCallback, currentDuration, sortAnimations[i][0], sortAnimations[i][1]);
+            let id2 = setTimeout(colorBarSwap, currentDuration, sortAnimations[i][0], sortAnimations[i][1]);
+            let id3 = setTimeout(colorBarSwapBack, currentDuration + 100, sortAnimations[i][0], sortAnimations[i][1]);
             timeoutIdArray[i] = id;
+            colorChangeIdArray[i] = id2;
+            colorChangeIdArray2[i] = id3;
             console.log("Called setTimeout: " + currentDuration + "ms, id = " + id);
             currentDuration += timeoutDuration;
         }
@@ -151,6 +175,8 @@ const playAnimation = () => {
         for (let i = currentWaitTarget; i < sortAnimations.length; i++) {
             console.log("Called clear timeout: " + timeoutIdArray[i]);
             clearTimeout(timeoutIdArray[i]);
+            clearTimeout(colorChangeIdArray[i]);
+            clearTimeout(colorChangeIdArray2[i]);
         }
     }
     button.disabled = false;
