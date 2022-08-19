@@ -77,25 +77,88 @@ const selectionSort = (anArray) => {
             if (anArray[currentIndex] < anArray[currentMinimumIndex]){
                 currentMinimumIndex = currentIndex;
             }
-            let animationMatrix = 
-            [
-                [currentIndex, currentMinimumIndex],
-                [0, 0]
-            ];
-            sortAnimations.push(animationMatrix);
+            // let animationMatrix = 
+            // [
+            //     [currentIndex, currentMinimumIndex],
+            //     [0, 0]
+            // ];
+            // sortAnimations.push(animationMatrix);
         }
         let valueOriginallyAtFirstNonPartitionIndex = anArray[firstNonePartitionIndex];
         anArray[firstNonePartitionIndex] = anArray[currentMinimumIndex];
         anArray[currentMinimumIndex] = valueOriginallyAtFirstNonPartitionIndex;
-        let animationMatrix = 
-        [
-            [firstNonePartitionIndex, currentMinimumIndex], 
-            [firstNonePartitionIndex, currentMinimumIndex]
-        ];
-        sortAnimations.push(animationMatrix);
+        // let animationMatrix = 
+        // [
+        //     [firstNonePartitionIndex, currentMinimumIndex], 
+        //     [firstNonePartitionIndex, currentMinimumIndex]
+        // ];
+        // sortAnimations.push(animationMatrix);
+    }
+    return sortAnimations;
+}
+
+const mergeSort = (anArray) => {
+    //Return if the array has no elements or just one element.
+    if(anArray.length < 2) {
+        return;
     }
 
-    return sortAnimations;
+    //Create the two halfs of the array
+    halfLength = Math.floor(anArray.length / 2);
+    leftHalf = Array(halfLength).fill(0);
+    rightHalf = Array(anArray.length - halfLength);
+
+    for(let i = 0; i < halfLength; i++){
+        leftHalf[i] = anArray[i];
+    }
+
+    for(let i = halfLength; i < anArray.length; i++){
+        rightHalf[i - halfLength] = anArray[i];
+    }
+
+    console.log("Right half before mergesort has been recursively called: " + rightHalf);
+    console.log("Left half before mergesort has been recursively called: " + leftHalf);
+
+    //Recursively call mergesort on the two arrays
+    mergeSort(leftHalf);
+    mergeSort(rightHalf);
+
+    console.log("Right half after mergesort has been recursively called: " + rightHalf);
+    console.log("Left half after mergesort has been recursively called: " + leftHalf);
+
+    merge(anArray, leftHalf, rightHalf);
+    console.log(anArray);
+}
+
+const merge = (anArray, leftHalf, rightHalf) => {
+    let i = 0;
+    let j = 0;
+    let k = 0;
+
+    debugger;
+
+    while((i < leftHalf.length) && (j < rightHalf.length)){
+        if (leftHalf[i] <= rightHalf[j]) {
+            anArray[k] = leftHalf[i];
+            i++;
+        } else {
+            anArray[k] = rightHalf[j];
+            j++;
+        }
+        k++;
+    }
+
+    while(i < leftHalf.length){
+        anArray[k] = leftHalf[i];
+        i++;
+        k++;
+    }
+
+    while(j < rightHalf.length){
+        anArray[k] = rightHalf[j];
+        j++;
+        k++;
+    }
 }
 
 /**
@@ -117,10 +180,6 @@ const makeBars = (anArray) => {
         child.style.border = `solid ${borderThickness}px #B2A4FF`;
         referenceToContainer.appendChild(child);
     }
-}
-
-const timeoutDebug = () => {
-    console.log("timeout ended");
 }
 
 /**
@@ -182,57 +241,61 @@ var currentWaitTarget = 0;
 var timeoutIdArray = [];
 
 const playAnimation = () => {
-    const button = document. querySelector('button');
-    button.disabled = true;
-    if(currentWaitTarget >= sortAnimations.length) {
-        //Reset all the globals
-        arrayBeingSorted = [];
-        isAnimationRunning = false;
-        sortAnimations = [];
-        currentWaitTarget = 0;
-        timeoutIdArray = [];
-        sortAnimations = [];
-        // colorChangeIdArray = [];
-        // colorChangeIdArray2 = [];
-        //Manually destroy the old divs
-        while(screen.firstChild) {
-            screen.removeChild(screen.lastChild);
-        }
-    }
-    if(arrayBeingSorted.length == 0) {
-        arrayBeingSorted = createArray(document.getElementById("slider").value);
-        //Need linear iteration regardless (because if we don't recreate bars, we will iterate through the array that is going to be sorted)
-        makeBars(arrayBeingSorted);
-        dropDownList = document.getElementById("algorithms");
-        if(dropDownList.value == "Bubble Sort") {
-            sortAnimations = bubbleSort(arrayBeingSorted);
-        } else if(dropDownList.value == "Selection Sort") {
-            sortAnimations = selectionSort(arrayBeingSorted);
-        }
-        console.log(sortAnimations);
-        timeoutIdArray = Array(sortAnimations.length).fill(0);
-        isAnimationRunning = true;
-    }
-    if(isAnimationRunning) {
-        isAnimationRunning = false;
-        document.getElementById("playButton").innerHTML = "Pause";
-        let timeoutDuration = 100;
-        let currentDuration = timeoutDuration;
-        let referenceToContainer = document.getElementById("screen");
-        for (let i = currentWaitTarget; i < sortAnimations.length; i++) {
-            let id = setTimeout(blockSwapCallback, currentDuration, referenceToContainer, i, sortAnimations);
-            timeoutIdArray[i] = id;
-            console.log("Called setTimeout: " + currentDuration + "ms, id = " + id);
-            currentDuration += timeoutDuration;
-        }
-    } else if (!isAnimationRunning) {
-        isAnimationRunning = true;
-        document.getElementById("playButton").innerHTML = "Play";
-        for (let i = currentWaitTarget; i < sortAnimations.length; i++) {
-            console.log("Called clear timeout: " + timeoutIdArray[i]);
-            clearTimeout(timeoutIdArray[i]);
-        }
-    }
-    button.disabled = false;
+    arrayBeingSorted = createArray(document.getElementById("slider").value);
+    console.log("Array before it has been sorted: " + arrayBeingSorted);
+    mergeSort(arrayBeingSorted);
+    console.log("Array after it has been sorted: " + arrayBeingSorted);
+    // const button = document. querySelector('button');
+    // button.disabled = true;
+    // if(currentWaitTarget >= sortAnimations.length) {
+    //     //Reset all the globals
+    //     arrayBeingSorted = [];
+    //     isAnimationRunning = false;
+    //     sortAnimations = [];
+    //     currentWaitTarget = 0;
+    //     timeoutIdArray = [];
+    //     sortAnimations = [];
+    //     // colorChangeIdArray = [];
+    //     // colorChangeIdArray2 = [];
+    //     //Manually destroy the old divs
+    //     while(screen.firstChild) {
+    //         screen.removeChild(screen.lastChild);
+    //     }
+    // }
+    // if(arrayBeingSorted.length == 0) {
+    //     arrayBeingSorted = createArray(document.getElementById("slider").value);
+    //     //Need linear iteration regardless (because if we don't recreate bars, we will iterate through the array that is going to be sorted)
+    //     makeBars(arrayBeingSorted);
+    //     dropDownList = document.getElementById("algorithms");
+    //     if(dropDownList.value == "Bubble Sort") {
+    //         sortAnimations = bubbleSort(arrayBeingSorted);
+    //     } else if(dropDownList.value == "Selection Sort") {
+    //         sortAnimations = selectionSort(arrayBeingSorted);
+    //     }
+    //     console.log(sortAnimations);
+    //     timeoutIdArray = Array(sortAnimations.length).fill(0);
+    //     isAnimationRunning = true;
+    // }
+    // if(isAnimationRunning) {
+    //     isAnimationRunning = false;
+    //     document.getElementById("playButton").innerHTML = "Pause";
+    //     let timeoutDuration = 100;
+    //     let currentDuration = timeoutDuration;
+    //     let referenceToContainer = document.getElementById("screen");
+    //     for (let i = currentWaitTarget; i < sortAnimations.length; i++) {
+    //         let id = setTimeout(blockSwapCallback, currentDuration, referenceToContainer, i, sortAnimations);
+    //         timeoutIdArray[i] = id;
+    //         console.log("Called setTimeout: " + currentDuration + "ms, id = " + id);
+    //         currentDuration += timeoutDuration;
+    //     }
+    // } else if (!isAnimationRunning) {
+    //     isAnimationRunning = true;
+    //     document.getElementById("playButton").innerHTML = "Play";
+    //     for (let i = currentWaitTarget; i < sortAnimations.length; i++) {
+    //         console.log("Called clear timeout: " + timeoutIdArray[i]);
+    //         clearTimeout(timeoutIdArray[i]);
+    //     }
+    // }
+    // button.disabled = false;
 }
 document.getElementById("playButton").addEventListener("click", playAnimation);
