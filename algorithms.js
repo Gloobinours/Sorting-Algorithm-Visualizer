@@ -49,19 +49,19 @@ const bubbleSort = (anArray) => {
                 temp = anArray[j];
                 anArray[j] = anArray[j+1];
                 anArray[j+1] = temp;
-                let animationMatrix = 
-                [
-                    [j, j+1], 
-                    [j, j+1]
-                ];
-                sortAnimations.push(animationMatrix);
+                // let animationMatrix = 
+                // [
+                //     [j, j+1], 
+                //     [j, j+1]
+                // ];
+                // sortAnimations.push(animationMatrix);
             } else {
-                let animationMatrix = 
-                [
-                    [j, j +1], 
-                    [0, 0]
-                ];
-                sortAnimations.push(animationMatrix); // add empty animation
+                // let animationMatrix = 
+                // [
+                //     [j, j +1], 
+                //     [0, 0]
+                // ];
+                // sortAnimations.push(animationMatrix); // add empty animation
             }
         }
     }
@@ -99,14 +99,14 @@ const selectionSort = (anArray) => {
 
 const mergeSort = (anArray) => {
     //Return if the array has no elements or just one element.
-    if(anArray.length < 2) {
-        return;
-    }
+    if(anArray.length < 2) return
 
     //Create the two halfs of the array
-    halfLength = Math.floor(anArray.length / 2);
-    leftHalf = Array(halfLength).fill(0);
-    rightHalf = Array(anArray.length - halfLength);
+    let halfLength = Math.floor(anArray.length / 2);
+    let leftHalf = Array(halfLength).fill(0);
+    let rightHalf = Array(anArray.length - halfLength).fill(0);
+
+    // debugger;
 
     for(let i = 0; i < halfLength; i++){
         leftHalf[i] = anArray[i];
@@ -115,19 +115,21 @@ const mergeSort = (anArray) => {
     for(let i = halfLength; i < anArray.length; i++){
         rightHalf[i - halfLength] = anArray[i];
     }
+    // console.log("The array before mergesort has been called: " + anArray);
+    // debugger;
 
-    console.log("Right half before mergesort has been recursively called: " + rightHalf);
-    console.log("Left half before mergesort has been recursively called: " + leftHalf);
+    // console.log("Left half before mergesort has been recursively called: " + leftHalf);
+    // console.log("Right half before mergesort has been recursively called: " + rightHalf);
 
-    //Recursively call mergesort on the two arrays
+    // //Recursively call mergesort on the two arrays
     mergeSort(leftHalf);
     mergeSort(rightHalf);
-
-    console.log("Right half after mergesort has been recursively called: " + rightHalf);
-    console.log("Left half after mergesort has been recursively called: " + leftHalf);
+    // console.log("The array after mergesort has been called: " + anArray);
+    // console.log("Left half after mergesort has been recursively called: " + leftHalf);
+    // console.log("Right half after mergesort has been recursively called: " + rightHalf);
 
     merge(anArray, leftHalf, rightHalf);
-    console.log(anArray);
+    // console.log(anArray);
 }
 
 const merge = (anArray, leftHalf, rightHalf) => {
@@ -135,7 +137,7 @@ const merge = (anArray, leftHalf, rightHalf) => {
     let j = 0;
     let k = 0;
 
-    debugger;
+    // debugger;
 
     while((i < leftHalf.length) && (j < rightHalf.length)){
         if (leftHalf[i] <= rightHalf[j]) {
@@ -158,6 +160,53 @@ const merge = (anArray, leftHalf, rightHalf) => {
         anArray[k] = rightHalf[j];
         j++;
         k++;
+    }
+}
+
+const quickSort = (anArray, lowIndex, highIndex) => {
+
+    if(lowIndex >= highIndex){
+        return;
+    }
+
+    let pivotIndex = (Math.floor((Math.random() * (highIndex - lowIndex))) + lowIndex);
+    let pivot = anArray[pivotIndex];
+    swap(anArray, pivotIndex, highIndex);
+
+    let leftPointer = lowIndex;
+    let rightPointer = highIndex;
+
+    while(leftPointer < rightPointer){
+        while((anArray[leftPointer] <= pivot) && (leftPointer < rightPointer)){
+            leftPointer++;
+        }
+        while((anArray[rightPointer] >= pivot) && (leftPointer < rightPointer)){
+            rightPointer--;
+        }
+        swap(anArray, leftPointer, rightPointer);
+    }
+
+    swap(anArray, leftPointer, highIndex);
+
+    quickSort(anArray, lowIndex, (leftPointer - 1));
+    quickSort(anArray, (leftPointer + 1), highIndex);
+}
+
+const swap = (anArray, index1, index2) => {
+    temp = anArray[index1];
+    anArray[index1] = anArray[index2];
+    anArray[index2] = temp;
+}
+
+const insertionSort = (anArray) => {
+    for(let i = 1; i < anArray.length; i++){
+        let currentValue = anArray[i];
+        let j = i - 1;
+        while(j >= 0 && anArray[j] > currentValue){
+            anArray[j + 1] = anArray[j];
+            j--;
+        }
+        anArray[j + 1] = currentValue;
     }
 }
 
@@ -241,10 +290,29 @@ var currentWaitTarget = 0;
 var timeoutIdArray = [];
 
 const playAnimation = () => {
-    arrayBeingSorted = createArray(document.getElementById("slider").value);
+    // array1 = createArray(10);
+    // array2 = createArray(10);
+
+    // console.log("Array 1 before it is sorted, and before the merging: " + array1);
+    // console.log("Array 2 before it is sorted, and before the merging: " + array2);
+
+    // bubbleSort(array1);
+    // bubbleSort(array2);
+
+    // console.log("Array 1 after it is sorted, but before the merging: " + array1);
+    // console.log("Array 2 after it is sorted, but before the merging: " + array2);
+
+    // anArray = Array(6).fill(0);
+    // merge(anArray, array1, array2);
+
+    // console.log("The array that results from merging the aforementioned arrays: " + anArray);
+
+    let arrayBeingSorted = createArray(document.getElementById("slider").value);
     console.log("Array before it has been sorted: " + arrayBeingSorted);
-    mergeSort(arrayBeingSorted);
+    insertionSort(arrayBeingSorted, 0, (arrayBeingSorted.length - 1));
     console.log("Array after it has been sorted: " + arrayBeingSorted);
+
+
     // const button = document. querySelector('button');
     // button.disabled = true;
     // if(currentWaitTarget >= sortAnimations.length) {
