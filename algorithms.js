@@ -182,69 +182,6 @@ const merge = (anArray, leftStartIndex, leftLength, rightStartIndex, rightLength
     }
 }
 
-const mergeSort = (anArray) => {
-
-    let sortAnimations = [];
-    mergeSortInPlace(anArray, 0, anArray.length, sortAnimations);
-    console.log(anArray);
-    return sortAnimations;
-
-    // //Return if the array has no elements or just one element.
-    // if(anArray.length < 2) return
-
-    // //Create the two halfs of the array
-    // let halfLength = Math.floor(anArray.length / 2);
-    // let leftHalf = Array(halfLength).fill(0);
-    // let rightHalf = Array(anArray.length - halfLength).fill(0);
-
-    // for(let i = 0; i < halfLength; i++){
-    //     leftHalf[i] = anArray[i];
-    // }
-
-    // for(let i = halfLength; i < anArray.length; i++){
-    //     rightHalf[i - halfLength] = anArray[i];
-    // }
-
-    // debugger;
-
-    // //Recursively call mergesort on the two arrays
-    // mergeSort(leftHalf);
-    // mergeSort(rightHalf);
-
-    // merge(anArray, leftHalf, rightHalf);
-}
-
-// const merge = (anArray, leftHalf, rightHalf) => {
-//     let i = 0;
-//     let j = 0;
-//     let k = 0;
-
-//     // debugger;
-
-//     while((i < leftHalf.length) && (j < rightHalf.length)){
-//         if (leftHalf[i] <= rightHalf[j]) {
-//             anArray[k] = leftHalf[i];
-//             i++;
-//         } else {
-//             anArray[k] = rightHalf[j];
-//             j++;
-//         }
-//         k++;
-//     }
-
-//     while(i < leftHalf.length){
-//         anArray[k] = leftHalf[i];
-//         i++;
-//         k++;
-//     }
-
-//     while(j < rightHalf.length){
-//         anArray[k] = rightHalf[j];
-//         j++;
-//         k++;
-//     }
-// }
-
 const quickSort = (anArray, lowIndex, highIndex) => {
 
     if(lowIndex >= highIndex){
@@ -383,30 +320,8 @@ var currentWaitTarget = 0;
 var timeoutIdArray = [];
 
 const playAnimation = () => {
-    // array1 = createArray(10);
-    // array2 = createArray(10);
 
-    // console.log("Array 1 before it is sorted, and before the merging: " + array1);
-    // console.log("Array 2 before it is sorted, and before the merging: " + array2);
-
-    // bubbleSort(array1);
-    // bubbleSort(array2);
-
-    // console.log("Array 1 after it is sorted, but before the merging: " + array1);
-    // console.log("Array 2 after it is sorted, but before the merging: " + array2);
-
-    // anArray = Array(6).fill(0);
-    // merge(anArray, array1, array2);
-
-    // console.log("The array that results from merging the aforementioned arrays: " + anArray);
-
-    // let arrayBeingSorted = createArray(document.getElementById("slider").value);
-    // console.log("Array before it has been sorted: " + arrayBeingSorted);
-    // insertionSort(arrayBeingSorted, 0, (arrayBeingSorted.length - 1));
-    // console.log("Array after it has been sorted: " + arrayBeingSorted);
-
-
-    const button = document. querySelector('button');
+    const button = document.querySelector('button');
     button.disabled = true;
     if(currentWaitTarget >= sortAnimations.length) {
         //Reset all the globals
@@ -416,8 +331,6 @@ const playAnimation = () => {
         currentWaitTarget = 0;
         timeoutIdArray = [];
         sortAnimations = [];
-        // colorChangeIdArray = [];
-        // colorChangeIdArray2 = [];
         //Manually destroy the old divs
         while(screen.firstChild) {
             screen.removeChild(screen.lastChild);
@@ -455,7 +368,7 @@ const playAnimation = () => {
             console.log("Called setTimeout: " + currentDuration + "ms, id = " + id);
             currentDuration += timeoutDuration;
         }
-    } else if (!isAnimationRunning) {
+    } else {
         isAnimationRunning = true;
         document.getElementById("playButton").innerHTML = "Play";
         for (let i = currentWaitTarget; i < sortAnimations.length; i++) {
